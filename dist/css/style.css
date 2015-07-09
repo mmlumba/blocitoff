@@ -13,5 +13,9 @@ body {
     .mainTaskList ul li {
       background-color: #CBE86B; }
 
+.stuff {
+  position: relative;
+  left: 400px; }
+
 form {
   position: relative; }

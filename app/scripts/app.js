@@ -1,4 +1,16 @@
-var app = angular.module("BlocItOff", ["firebase"]);
+var app = angular.module("BlocItOff", ["firebase", "ui.router"]);
+
+app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
+  //$locationProvider.html5mode(true);
+
+  $urlRouterProvider.otherwise('/');
+
+  $stateProvider.state('home', {
+    url: '/',
+    controller: 'TaskCtrl.controller',
+    templateUrl: '/templates/home.html'
+  });
+}]);
 
 app.factory("taskList", ["$firebaseArray",
   function($firebaseArray){
@@ -8,7 +20,7 @@ app.factory("taskList", ["$firebaseArray",
   }
 ]);
 
-app.controller("TaskCtrl", ["$scope", "taskList",
+app.controller("TaskCtrl.controller", ["$scope", "taskList",
   function($scope, taskList){
     var counter = 0;
     $scope.user = "Task " + counter++;
