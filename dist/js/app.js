@@ -32,11 +32,11 @@ app.controller("TaskCtrl.controller", ["$scope", "taskList",
       $scope.message = "";
     };
 
-    $scope.messages.$loaded(function() {
+    /*$scope.messages.$loaded(function() {
         if ($scope.messages.length === 0) {
           $scope.messages.$add({
             content: "First task!"
           });
         }
-      });
+      });*/
   }]);
