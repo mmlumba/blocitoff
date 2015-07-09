@@ -1,3 +1,30 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var app = angular.module("BlocItOff", ["firebase"]);
 
-},{}]},{},[1]);
+app.factory("taskList", ["$firebaseArray",
+  function($firebaseArray){
+    var taskID = Math.round(Math.random() * 100000000);
+    var ref = new Firebase("https://scorching-torch-4465.firebaseio.com/" + taskID);
+    return $firebaseArray(ref);
+  }
+]);
+
+app.controller("TaskCtrl", ["$scope", "taskList",
+  function($scope, taskList){
+    var counter = 0;
+    $scope.user = "Task " + counter++;
+    $scope.messages = taskList;
+    $scope.addMessage = function() {
+      $scope.messages.$add({
+        content: $scope.message
+      });
+      $scope.message = "";
+    };
+
+    $scope.messages.$loaded(function() {
+        if ($scope.messages.length === 0) {
+          $scope.messages.$add({
+            content: "First task!"
+          });
+        }
+      });
+  }]);
