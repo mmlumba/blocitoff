@@ -1,0 +1,21 @@
+body {
+  background-color: #FFFFFF;
+  color: #1C140D;
+  margin: 20px; }
+
+.mainTaskList {
+  align: center; }
+  .mainTaskList ul {
+    width: 600px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0; }
+    .mainTaskList ul li {
+      background-color: #CBE86B; }
+
+.stuff {
+  position: relative;
+  left: 400px; }
+
+form {
+  position: relative; }
