@@ -14,8 +14,8 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 
 app.factory("taskList", ["$firebaseArray",
   function($firebaseArray){
-    var taskID = Math.round(Math.random() * 100000000);
-    var ref = new Firebase("https://scorching-torch-4465.firebaseio.com/" + taskID);
+    //var taskID = Math.round(Math.random() * 100000000);
+    var ref = new Firebase("https://scorching-torch-4465.firebaseio.com/messages");
     return $firebaseArray(ref);
   }
 ]);
@@ -25,12 +25,18 @@ app.controller("TaskCtrl.controller", ["$scope", "taskList",
     var counter = 0;
     $scope.user = "Task " + counter++;
     $scope.messages = taskList;
+
     $scope.addMessage = function() {
-      $scope.messages.$add({
+      var item = {
         content: $scope.message
-      });
+      };
+
+      $scope.messages.$add(item);
+      // Save Messages
+      $scope.messages.$save(item)
       $scope.message = "";
     };
+
 
     /*$scope.messages.$loaded(function() {
         if ($scope.messages.length === 0) {
