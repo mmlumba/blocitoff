@@ -1,8 +1,6 @@
-var app = angular.module("BlocItOff", ["firebase", "ui.router"]);
+var app = angular.module("BlocItOff", ["firebase", "ui.router", "angularMoment"]);
 
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
-  //$locationProvider.html5mode(true);
-
   $urlRouterProvider.otherwise('/');
 
   $stateProvider.state('home', {
@@ -14,7 +12,6 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 
 app.factory("taskList", ["$firebaseArray",
   function($firebaseArray){
-    //var taskID = Math.round(Math.random() * 100000000);
     var ref = new Firebase("https://scorching-torch-4465.firebaseio.com/messages");
     return $firebaseArray(ref);
   }
@@ -22,27 +19,23 @@ app.factory("taskList", ["$firebaseArray",
 
 app.controller("TaskCtrl.controller", ["$scope", "taskList",
   function($scope, taskList){
-    var counter = 0;
-    $scope.user = "Task " + counter++;
-    $scope.messages = taskList;
-
-    $scope.addMessage = function() {
+    $scope.tasks = taskList;
+    var now = +(new Date);
+    $scope.addNewTask = function() {
       var item = {
-        content: $scope.message
+        content: $scope.task,
+        taskAddTime: now
       };
 
-      $scope.messages.$add(item);
-      // Save Messages
-      $scope.messages.$save(item)
-      $scope.message = "";
+      $scope.tasks.$add(item);
+      $scope.tasks.$save(item)
+      $scope.task = "";
     };
 
-
-    /*$scope.messages.$loaded(function() {
-        if ($scope.messages.length === 0) {
-          $scope.messages.$add({
-            content: "First task!"
-          });
-        }
-      });*/
   }]);
+
+/*app.directive('hideOldTask', function(){
+  return {
+    restrict: 'E'
+  }
+})*/
