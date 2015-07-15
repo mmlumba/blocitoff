@@ -35,12 +35,13 @@ app.factory("taskList", ["$firebaseArray",
   }
 ]);
 
-app.controller("TaskCtrl.controller", ["$scope", "taskList",
-  function($scope, taskList){
+app.controller("TaskCtrl.controller", ["$scope", "taskList", "$interval",
+  function($scope, taskList, $interval){
     $scope.tasks = taskList;
-    //var now = +(new Date);
-    var timeStamp = moment(new Date).add(moment.duration(7000));
-    console.log(timeStamp.toDate());
+
+    $interval(function(){
+      $scope.timeStamp = +(new Date);
+    }, 100);
 
     $scope.addNewTask = function() {
 
@@ -55,13 +56,8 @@ app.controller("TaskCtrl.controller", ["$scope", "taskList",
       $scope.task = "";
     };
 
-    $scope.hideSomeTask = function(time) {
-      if ((new Date() - time) >= 7000){
-        return true;
-      }
-      else {
-        return false;
-      }
+    $scope.hideTask = function(task) {
+      return $scope.timeStamp - task.taskAddTime >= 7000 ? true : false;
     }
 
   }]);
