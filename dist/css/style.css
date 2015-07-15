@@ -11,7 +11,8 @@ body {
     padding: 0;
     margin: 0; }
     .mainTaskList ul li {
-      background-color: #CBE86B; }
+      background-color: #CBE86B;
+      padding: 20px; }
 
 .stuff {
   position: relative;

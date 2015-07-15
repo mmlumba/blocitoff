@@ -1,7 +1,7 @@
       <div class="mainTaskList">
         <h2>Current Tasks</h2>
         <ul class="chatbox">
-          <li ng-repeat="task in tasks">{{$index+1+". "}} {{ task.content }}
+          <li ng-repeat="task in tasks" ng-hide="hideSomeTask(task.taskAddTime)">{{$index+1+". "}} {{ task.content }}
             <span class="timeAdded">
               {{" Added "}}
               <span am-time-ago="task.taskAddTime"></span>
@@ -15,3 +15,4 @@
           <input type="submit" value="Add Task">
         </form>
       </div>
+<!--ng-hide="hideSomeTask(task.taskAddTime)"-->
