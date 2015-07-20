@@ -5,6 +5,9 @@
             <span class="timeAdded">
               {{" Added "}}
               <span am-time-ago="task.taskAddTime"></span>
+              <a ng-click="checkMe(task)" class="check">
+                <i class="fa fa-square fa-lg"></i>
+              </a>
             </span>
           </li>
         </ul>
@@ -15,4 +18,3 @@
           <input type="submit" value="Add Task">
         </form>
       </div>
-<!--ng-hide="hideSomeTask(task.taskAddTime)"-->

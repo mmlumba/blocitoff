@@ -57,7 +57,21 @@ app.controller("TaskCtrl.controller", ["$scope", "taskList", "$interval",
     };
 
     $scope.hideTask = function(task) {
-      return $scope.timeStamp - task.taskAddTime >= 7000 ? true : false;
+      
+      if (($scope.timeStamp - task.taskAddTime) >= 420000) {
+        return true;
+      }
+      else if (task.isSelected){
+        return true;
+      }
+      else {
+        return false;
+      }
+      //return $scope.timeStamp - task.taskAddTime >= 420000 ? true : false;
+    }
+
+    $scope.checkMe = function(task){
+      task.isSelected = true;
     }
 
   }]);
