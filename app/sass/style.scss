@@ -6,7 +6,7 @@
 $magic-margin-padding: 20px;
 
 body {
-  background-color: #FFFFFF;
+  background-color: #FFFCF9;
   color: #1C140D;
   margin: $magic-margin-padding;
 }
@@ -30,6 +30,9 @@ body {
 form {
   position: relative;
   margin: $magic-margin-padding;
+  &:focus {
+    color: #48001A;
+  }
 }
 .timeAdded {
   font-style: italic;
@@ -48,7 +51,7 @@ form {
   h1 {
     color: #311F12;
   }
-  h3 {
+  h2 {
     margin-bottom: 0px;
     padding: 10px;
     color: #311F12;
@@ -56,7 +59,7 @@ form {
 }
 .taskHeader {
   @include bg(#786C62, #9C938B);
-  h4 {
+  h3 {
     color: #F8F1EB;
     margin-top: 0px;
     padding: 10px;

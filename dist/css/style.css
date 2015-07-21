@@ -1,5 +1,5 @@
 body {
-  background-color: #FFFFFF;
+  background-color: #FFFCF9;
   color: #1C140D;
   margin: 20px; }
 
@@ -17,6 +17,8 @@ body {
 form {
   position: relative;
   margin: 20px; }
+  form:focus {
+    color: #48001A; }
 
 .timeAdded {
   font-style: italic;
@@ -32,7 +34,7 @@ form {
   background: linear-gradient(#AD9783, #F2E9E1); }
   .morestuff h1 {
     color: #311F12; }
-  .morestuff h3 {
+  .morestuff h2 {
     margin-bottom: 0px;
     padding: 10px;
     color: #311F12; }
@@ -40,7 +42,7 @@ form {
 .taskHeader {
   background: linear-gradient(#786C62, #9C938B);
   padding-bottom: 10px; }
-  .taskHeader h4 {
+  .taskHeader h3 {
     color: #F8F1EB;
     margin-top: 0px;
     padding: 10px; }
