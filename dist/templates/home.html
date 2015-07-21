@@ -1,6 +1,9 @@
       <div class="mainTaskList">
-        <h2>Current Tasks</h2>
-        <ul class="chatbox">
+        <div class="taskHeader">
+        <h4>Current Tasks</h4>
+        <span class="links"><a ui-sref="pastTasks">View Past Tasks</a></span>
+        </div>
+        <ul class="taskbox">
           <li ng-repeat="task in tasks" ng-hide="hideTask(task)">{{$index+1+". "}} {{ task.content }}
             <span class="timeAdded">
               {{" Added "}}

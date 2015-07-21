@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>BlocItOff</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:500">
     <link rel="stylesheet" href="/css/style.css">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
@@ -16,11 +17,14 @@
 </head>
   <body>
 
-    <div class="container-fluid">
-      <h1>Welcome to Stack Tasks!</h1>
-      <h3>A ripoff of BlocItOff</h3>
-      <p>Write a task to add to the task list:</p>
+    <div class="container-fluid text-center">
+      <div class="span12 text-center">
+        <div class="morestuff">
+          <h1>Welcome to Stack Tasks!</h1>
+          <h3>Write a task to add to the task list:</h3>
+        </div>
       <div ui-view class="stuff"></div>
+    </div>
     </div>
   </body>
 </html>
