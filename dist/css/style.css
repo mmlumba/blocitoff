@@ -11,7 +11,8 @@ body {
     padding: 0;
     margin: 0; }
     .mainTaskList ul li {
-      background-color: #CBE86B; }
+      background-color: #CBE86B;
+      padding: 20px; }
 
 .stuff {
   position: relative;
@@ -19,3 +20,12 @@ body {
 
 form {
   position: relative; }
+
+.timeAdded {
+  font-style: italic;
+  float: right; }
+  .timeAdded .check {
+    color: #000000;
+    padding-left: 5px; }
+    .timeAdded .check:hover .fa-square:before {
+      content: "\f14a"; }

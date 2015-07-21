@@ -1,11 +1,20 @@
       <div class="mainTaskList">
+        <h2>Current Tasks</h2>
         <ul class="chatbox">
-          <li ng-repeat="message in messages">{{$index+1+". "}} {{ message.content }}</li>
+          <li ng-repeat="task in tasks" ng-hide="hideTask(task)">{{$index+1+". "}} {{ task.content }}
+            <span class="timeAdded">
+              {{" Added "}}
+              <span am-time-ago="task.taskAddTime"></span>
+              <a ng-click="checkMe(task)" class="check">
+                <i class="fa fa-square fa-lg"></i>
+              </a>
+            </span>
+          </li>
         </ul>
       </div>
       <div>
-        <form name="addTask" ng-submit="addMessage()">
-          <input type="text" ng-model="message">
-          <input type="submit" value="Add Message">
+        <form name="addTask" ng-submit="addNewTask()">
+          <input type="text" ng-model="task">
+          <input type="submit" value="Add Task">
         </form>
       </div>

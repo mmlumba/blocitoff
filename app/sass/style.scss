@@ -12,6 +12,7 @@ body {
     margin:0;
     li {
       background-color: #CBE86B;
+      padding: 20px;
     }
   }
 }
@@ -21,4 +22,15 @@ body {
 }
 form {
   position: relative;
+}
+.timeAdded {
+  font-style: italic;
+  float: right;
+  .check {
+    color: #000000;
+    padding-left: 5px;
+    &:hover .fa-square:before {
+      content: "\f14a";
+    }
+  }
 }

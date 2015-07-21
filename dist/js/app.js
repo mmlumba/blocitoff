@@ -1,8 +1,6 @@
-var app = angular.module("BlocItOff", ["firebase", "ui.router"]);
+var app = angular.module("BlocItOff", ["firebase", "ui.router", "angularMoment"]);
 
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
-  //$locationProvider.html5mode(true);
-
   $urlRouterProvider.otherwise('/');
 
   $stateProvider.state('home', {
@@ -10,39 +8,70 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     controller: 'TaskCtrl.controller',
     templateUrl: '/templates/home.html'
   });
+
+  moment.locale('en', {
+    relativeTime : {
+        future: "in %s",
+        past:   "%s ago",
+        s:  "%d seconds",
+        m:  "a minute",
+        mm: "%d minutes",
+        h:  "an hour",
+        hh: "%d hours",
+        d:  "a day",
+        dd: "%d days",
+        M:  "a month",
+        MM: "%d months",
+        y:  "a year",
+        yy: "%d years"
+    }
+  });
 }]);
 
 app.factory("taskList", ["$firebaseArray",
   function($firebaseArray){
-    //var taskID = Math.round(Math.random() * 100000000);
     var ref = new Firebase("https://scorching-torch-4465.firebaseio.com/messages");
     return $firebaseArray(ref);
   }
 ]);
 
-app.controller("TaskCtrl.controller", ["$scope", "taskList",
-  function($scope, taskList){
-    var counter = 0;
-    $scope.user = "Task " + counter++;
-    $scope.messages = taskList;
+app.controller("TaskCtrl.controller", ["$scope", "taskList", "$interval",
+  function($scope, taskList, $interval){
+    $scope.tasks = taskList;
 
-    $scope.addMessage = function() {
+    $interval(function(){
+      $scope.timeStamp = +(new Date);
+    }, 100);
+
+    $scope.addNewTask = function() {
+
+      var now = +(new Date);
       var item = {
-        content: $scope.message
+        content: $scope.task,
+        taskAddTime: now
       };
 
-      $scope.messages.$add(item);
-      // Save Messages
-      $scope.messages.$save(item)
-      $scope.message = "";
+      $scope.tasks.$add(item);
+      $scope.tasks.$save(item)
+      $scope.task = "";
     };
 
+    $scope.hideTask = function(task) {
 
-    /*$scope.messages.$loaded(function() {
-        if ($scope.messages.length === 0) {
-          $scope.messages.$add({
-            content: "First task!"
-          });
-        }
-      });*/
+      if (($scope.timeStamp - task.taskAddTime) >= 604800000) {
+        return true;
+      }
+      else if (task.isSelected){
+        return true;
+      }
+      else {
+        return false;
+      }
+      //return $scope.timeStamp - task.taskAddTime >= 420000 ? true : false;
+    }
+
+    $scope.checkMe = function(task){
+      task.isSelected = true;
+    }
+
   }]);
