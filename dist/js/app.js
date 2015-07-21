@@ -57,8 +57,8 @@ app.controller("TaskCtrl.controller", ["$scope", "taskList", "$interval",
     };
 
     $scope.hideTask = function(task) {
-      
-      if (($scope.timeStamp - task.taskAddTime) >= 420000) {
+
+      if (($scope.timeStamp - task.taskAddTime) >= 604800000) {
         return true;
       }
       else if (task.isSelected){
