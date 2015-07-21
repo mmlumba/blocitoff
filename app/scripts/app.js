@@ -8,6 +8,11 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     controller: 'TaskCtrl.controller',
     templateUrl: '/templates/home.html'
   });
+  $stateProvider.state('pastTasks', {
+    url: '/pastTasks',
+    controller: 'TaskCtrl.controller',
+    templateUrl: '/templates/pastTasks.html'
+  });
 
   moment.locale('en', {
     relativeTime : {
@@ -48,30 +53,35 @@ app.controller("TaskCtrl.controller", ["$scope", "taskList", "$interval",
       var now = +(new Date);
       var item = {
         content: $scope.task,
-        taskAddTime: now
+        taskAddTime: now,
+        taskSelect: -1
       };
 
       $scope.tasks.$add(item);
-      $scope.tasks.$save(item)
+      $scope.tasks.$save(item);
+      console.log(item.taskSelect);
       $scope.task = "";
     };
 
     $scope.hideTask = function(task) {
 
-      if (($scope.timeStamp - task.taskAddTime) >= 604800000) {
+      if (($scope.timeStamp - task.taskAddTime) >= 420000) {
         return true;
+        task.taskSelect = 0;
       }
       else if (task.isSelected){
         return true;
+        task.taskSelect = 0;
       }
       else {
         return false;
       }
-      //return $scope.timeStamp - task.taskAddTime >= 420000 ? true : false;
     }
 
     $scope.checkMe = function(task){
       task.isSelected = true;
+      task.taskSelect = 0;
+      console.log(task.taskSelect);
     }
 
   }]);

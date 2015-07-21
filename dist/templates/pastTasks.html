@@ -1,0 +1,18 @@
+<div class="mainTaskList">
+  <h2>Past Tasks</h2>
+  <span class="links"><a ui-sref="home">View Current Tasks</a></span>
+  <ul class="taskbox">
+    <li ng-repeat="task in tasks" | filter:checkMe(task.taskSelect(0))>{{$index+1+". "}} {{ task.content }}
+      <span class="timeAdded">
+        {{" Added "}}
+        <span am-time-ago="task.taskAddTime"></span>
+      </span>
+    </li>
+  </ul>
+</div>
+<div>
+  <form name="addTask" ng-submit="addNewTask()">
+    <input type="text" ng-model="task">
+    <input type="submit" value="Add Task">
+  </form>
+</div>
