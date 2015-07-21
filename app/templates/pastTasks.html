@@ -1,6 +1,8 @@
 <div class="mainTaskList">
-  <h2>Past Tasks</h2>
+  <div class="taskHeader">
+  <h4>Past Tasks</h4>
   <span class="links"><a ui-sref="home">View Current Tasks</a></span>
+  </div>
   <ul class="taskbox">
     <li ng-repeat="task in tasks" | filter:checkMe(task.taskSelect(0))>{{$index+1+". "}} {{ task.content }}
       <span class="timeAdded">

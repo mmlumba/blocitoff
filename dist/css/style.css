@@ -3,23 +3,20 @@ body {
   color: #1C140D;
   margin: 20px; }
 
-.mainTaskList {
-  align: center; }
-  .mainTaskList ul {
-    width: 600px;
-    list-style-type: none;
-    padding: 0;
-    margin: 0; }
-    .mainTaskList ul li {
-      background-color: #CBE86B;
-      padding: 20px; }
+.mainTaskList ul {
+  background: linear-gradient(#E5F3B5, #CBE86B);
+  list-style-type: none;
+  padding: 0;
+  margin: 0; }
+  .mainTaskList ul li {
+    padding: 20px; }
 
 .stuff {
-  position: relative;
-  left: 400px; }
+  position: relative; }
 
 form {
-  position: relative; }
+  position: relative;
+  margin: 20px; }
 
 .timeAdded {
   font-style: italic;
@@ -30,5 +27,25 @@ form {
     .timeAdded .check:hover .fa-square:before {
       content: "\f14a"; }
 
+.morestuff {
+  font-family: Roboto;
+  background: linear-gradient(#AD9783, #F2E9E1); }
+  .morestuff h1 {
+    color: #311F12; }
+  .morestuff h3 {
+    margin-bottom: 0px;
+    padding: 10px;
+    color: #311F12; }
+
+.taskHeader {
+  background: linear-gradient(#786C62, #9C938B);
+  padding-bottom: 10px; }
+  .taskHeader h4 {
+    color: #F8F1EB;
+    margin-top: 0px;
+    padding: 10px; }
+
 .links {
   position: relative; }
+  .links a {
+    color: #48001A; }
