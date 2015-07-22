@@ -33,45 +33,38 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
   });
 }]);
 
-app.factory("taskList", ["$firebaseArray",
-  function($firebaseArray){
-    var ref = new Firebase("https://scorching-torch-4465.firebaseio.com/messages");
-    return $firebaseArray(ref);
-  }
-]);
+app.controller("TaskCtrl.controller", ["$scope", "taskListService", "$interval",
+  function($scope, taskListService, $interval){
+    var ellapsedMilliseconds = 7000; //TODO: could be converted to a constant
 
-app.controller("TaskCtrl.controller", ["$scope", "taskList", "$interval",
-  function($scope, taskList, $interval){
-    $scope.tasks = taskList;
+    $scope.tasks = taskListService.getTasks();
 
     $interval(function(){
       $scope.timeStamp = +(new Date);
     }, 100);
 
+    $scope.taskFilter = function(task){
+      return task.isSelected || task.taskCompleted;     
+    }
+
     $scope.addNewTask = function() {
-
-      var now = +(new Date);
-      var item = {
-        content: $scope.task,
-        taskAddTime: now,
-        taskSelect: -1
-      };
-
-      $scope.tasks.$add(item);
-      $scope.tasks.$save(item);
-      console.log(item.taskSelect);
+      taskListService.add($scope.task);
       $scope.task = "";
     };
 
     $scope.hideTask = function(task) {
 
-      if (($scope.timeStamp - task.taskAddTime) >= 420000) {
-        return true;
-        task.taskSelect = 0;
+      if(task.taskCompleted)
+        return true; //If task has already been marked completed just return true
+
+      //TODO: possible refactor here...
+      if (($scope.timeStamp - task.taskAddTime) >= ellapsedMilliseconds) { //If time has ellapsed by x milliseconds do this
+        task.taskCompleted = true;     
+        taskListService.updateTask(task); //update the task completed flag       
+        return task.taskCompleted;
       }
       else if (task.isSelected){
         return true;
-        task.taskSelect = 0;
       }
       else {
         return false;
@@ -79,9 +72,9 @@ app.controller("TaskCtrl.controller", ["$scope", "taskList", "$interval",
     }
 
     $scope.checkMe = function(task){
-      task.isSelected = true;
-      task.taskSelect = 0;
-      console.log(task.taskSelect);
+      task.isSelected = !task.isSelected;  //inverts the boolean, by default all new task will be marked false
+      taskListService.updateTask(task);
     }
 
   }]);
+module.exports =app;
