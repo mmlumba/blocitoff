@@ -48,6 +48,8 @@ app.controller("TaskCtrl.controller", ["$scope", "taskListService", "$interval",
       $scope.timeStamp = +(new Date);
     }, 100);
 
+    //Note: could change the name
+
     $scope.taskFilter = function(task){
       //console.log(task);
       return (task.status == "completed" || task.status == "expired");
@@ -60,18 +62,14 @@ app.controller("TaskCtrl.controller", ["$scope", "taskListService", "$interval",
 
     $scope.hideTask = function(task) {
 
-      //if(task.taskCompleted)
-      //  return true; //If task has already been marked completed just return true
+      if($scope.taskFilter(task))
+        return true; //If task has already been marked completed just return true
 
       //TODO: possible refactor here...
       if (($scope.timeStamp - task.taskAddTime) >= ellapsedMilliseconds) { //If time has ellapsed by x milliseconds do this
         task.status = "expired";
-        //task.taskCompleted = true;
+      //  task.taskCompleted = true;
         taskListService.updateTask(task); //update the task completed flag
-        //return task.taskCompleted;
-        return true;
-      }
-      else if (task.isSelected){
         return true;
       }
       else {
