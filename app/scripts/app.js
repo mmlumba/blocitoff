@@ -78,7 +78,7 @@ app.controller("TaskCtrl.controller", ["$scope", "taskListService", "$interval",
 
     $scope.checkMe = function(task){
       task.status = "completed";
-      task.isSelected = !task.isSelected;  //inverts the boolean, by default all new task will be marked false
+    //  task.isSelected = !task.isSelected;  //inverts the boolean, by default all new task will be marked false
       taskListService.updateTask(task);
     }
 
