@@ -35,7 +35,11 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 
 app.controller("TaskCtrl.controller", ["$scope", "taskListService", "$interval",
   function($scope, taskListService, $interval){
-    var ellapsedMilliseconds = 7000; //TODO: could be converted to a constant
+    var ellapsedMilliseconds = 420000; //TODO: could be converted to a constant
+
+    var status = ["completed", "expired", "active"];
+
+    $scope.priority = "medium";
 
     $scope.tasks = taskListService.getTasks();
 
@@ -43,27 +47,28 @@ app.controller("TaskCtrl.controller", ["$scope", "taskListService", "$interval",
       $scope.timeStamp = +(new Date);
     }, 100);
 
+    //Note: could change the name
+
     $scope.taskFilter = function(task){
-      return task.isSelected || task.taskCompleted;     
+      //console.log(task);
+      return (task.status == "completed" || task.status == "expired");
     }
 
     $scope.addNewTask = function() {
-      taskListService.add($scope.task);
+      taskListService.add($scope.task, $scope.priority);
       $scope.task = "";
     };
 
     $scope.hideTask = function(task) {
 
-      if(task.taskCompleted)
+      if($scope.taskFilter(task))
         return true; //If task has already been marked completed just return true
 
       //TODO: possible refactor here...
       if (($scope.timeStamp - task.taskAddTime) >= ellapsedMilliseconds) { //If time has ellapsed by x milliseconds do this
-        task.taskCompleted = true;     
-        taskListService.updateTask(task); //update the task completed flag       
-        return task.taskCompleted;
-      }
-      else if (task.isSelected){
+        task.status = "expired";
+      //  task.taskCompleted = true;
+        taskListService.updateTask(task); //update the task completed flag
         return true;
       }
       else {
@@ -72,7 +77,8 @@ app.controller("TaskCtrl.controller", ["$scope", "taskListService", "$interval",
     }
 
     $scope.checkMe = function(task){
-      task.isSelected = !task.isSelected;  //inverts the boolean, by default all new task will be marked false
+      task.status = "completed";
+    //  task.isSelected = !task.isSelected;  //inverts the boolean, by default all new task will be marked false
       taskListService.updateTask(task);
     }
 

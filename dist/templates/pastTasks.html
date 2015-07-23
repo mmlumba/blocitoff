@@ -1,11 +1,13 @@
 <div class="mainTaskList">
-  <div class="taskHeader">
+  <div class="taskHeader text-center">
   <h3>Past Tasks</h3>
   <span class="links"><a ui-sref="home">View Current Tasks</a></span>
   </div>
   <ul class="taskbox">
-    <li ng-repeat="task in tasks | filter:taskFilter">{{$index+1+". "}} {{ task.content }}
-      <span class="timeAdded">
+    <li ng-repeat="task in tasks | filter:taskFilter">
+      <div class="col-md-7">{{ task.content }}</div>
+      <div class="col-md-3">{{ task.priority }}</div>
+      <span class="timeAdded col-md-2">
         {{" Added "}}
         <span am-time-ago="task.taskAddTime"></span>
       </span>

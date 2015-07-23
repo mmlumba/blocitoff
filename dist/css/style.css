@@ -7,7 +7,8 @@ body {
   background: linear-gradient(#E5F3B5, #CBE86B);
   list-style-type: none;
   padding: 0;
-  margin: 0; }
+  margin: 0;
+  padding-bottom: 20px; }
   .mainTaskList ul li {
     padding: 20px; }
 
