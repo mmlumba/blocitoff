@@ -4,10 +4,10 @@ app.factory("taskListService", ["$firebaseArray",
   function($firebaseArray){
 
     var taskList = [];
+    var ref = new Firebase("https://scorching-torch-4465.firebaseio.com/messages");
+    taskList = $firebaseArray(ref);
 
     var getTasks = function(){
-      var ref = new Firebase("https://scorching-torch-4465.firebaseio.com/messages");
-      taskList = $firebaseArray(ref);
       return taskList;
     }
 

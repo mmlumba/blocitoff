@@ -87,7 +87,7 @@ app.controller("TaskCtrl.controller", ["$scope", "taskListService", "$interval",
 module.exports =app;
 
 },{}],2:[function(require,module,exports){
-var app = require('./app.js');
+var app = require('./app.js'); //not normal angular
 
 app.filter('prioritySort', function(){
   function PriorityOrder(item){
@@ -116,14 +116,30 @@ app.filter('prioritySort', function(){
 },{"./app.js":1}],3:[function(require,module,exports){
 var app = require('./app.js');
 
+app.directive("taskComplete", ['taskListService', function(taskListService){
+  return {
+    link: function(scope, elem, attr){
+      elem.on('click', function(){
+        var task = scope.task;
+        task.status = "completed";
+        taskListService.updateTask(task);
+        //scope.$apply();
+      });
+    }
+  };
+}]);
+
+},{"./app.js":1}],4:[function(require,module,exports){
+var app = require('./app.js');
+
 app.factory("taskListService", ["$firebaseArray",
   function($firebaseArray){
 
     var taskList = [];
+    var ref = new Firebase("https://scorching-torch-4465.firebaseio.com/messages");
+    taskList = $firebaseArray(ref);
 
     var getTasks = function(){
-      var ref = new Firebase("https://scorching-torch-4465.firebaseio.com/messages");
-      taskList = $firebaseArray(ref);
       return taskList;
     }
 
@@ -165,4 +181,4 @@ app.factory("taskListService", ["$firebaseArray",
   }
 ]);
 
-},{"./app.js":1}]},{},[1,2,3]);
+},{"./app.js":1}]},{},[1,2,3,4]);

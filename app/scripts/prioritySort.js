@@ -1,4 +1,4 @@
-var app = require('./app.js');
+var app = require('./app.js'); //not normal angular
 
 app.filter('prioritySort', function(){
   function PriorityOrder(item){
