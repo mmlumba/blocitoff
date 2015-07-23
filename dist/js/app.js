@@ -36,7 +36,11 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 
 app.controller("TaskCtrl.controller", ["$scope", "taskListService", "$interval",
   function($scope, taskListService, $interval){
-    var ellapsedMilliseconds = 7000; //TODO: could be converted to a constant
+    var ellapsedMilliseconds = 420000; //TODO: could be converted to a constant
+
+    var status = ["completed", "expired", "active"];
+
+    $scope.priority = "medium";
 
     $scope.tasks = taskListService.getTasks();
 
@@ -45,24 +49,27 @@ app.controller("TaskCtrl.controller", ["$scope", "taskListService", "$interval",
     }, 100);
 
     $scope.taskFilter = function(task){
-      return task.isSelected || task.taskCompleted;     
+      //console.log(task);
+      return (task.status == "completed" || task.status == "expired");
     }
 
     $scope.addNewTask = function() {
-      taskListService.add($scope.task);
+      taskListService.add($scope.task, $scope.priority);
       $scope.task = "";
     };
 
     $scope.hideTask = function(task) {
 
-      if(task.taskCompleted)
-        return true; //If task has already been marked completed just return true
+      //if(task.taskCompleted)
+      //  return true; //If task has already been marked completed just return true
 
       //TODO: possible refactor here...
       if (($scope.timeStamp - task.taskAddTime) >= ellapsedMilliseconds) { //If time has ellapsed by x milliseconds do this
-        task.taskCompleted = true;     
-        taskListService.updateTask(task); //update the task completed flag       
-        return task.taskCompleted;
+        task.status = "expired";
+        //task.taskCompleted = true;
+        taskListService.updateTask(task); //update the task completed flag
+        //return task.taskCompleted;
+        return true;
       }
       else if (task.isSelected){
         return true;
@@ -73,6 +80,7 @@ app.controller("TaskCtrl.controller", ["$scope", "taskListService", "$interval",
     }
 
     $scope.checkMe = function(task){
+      task.status = "completed";
       task.isSelected = !task.isSelected;  //inverts the boolean, by default all new task will be marked false
       taskListService.updateTask(task);
     }
@@ -81,6 +89,33 @@ app.controller("TaskCtrl.controller", ["$scope", "taskListService", "$interval",
 module.exports =app;
 
 },{}],2:[function(require,module,exports){
+var app = require('./app.js');
+
+app.filter('prioritySort', function(){
+  function PriorityOrder(item){
+    switch(item){
+      case "high":
+        return 1;
+      case "medium":
+        return 2;
+      case "low":
+        return 3;
+    }
+  }
+
+  return function(items, field) {
+    var filtered = [];
+    angular.forEach(items, function(item) {
+      filtered.push(item);
+    });
+    filtered.sort(function (a, b) {
+      return (PriorityOrder(a.priority) > PriorityOrder(b.priority) ? 1 : -1);
+    });
+    return filtered;
+  };
+})
+
+},{"./app.js":1}],3:[function(require,module,exports){
 var app = require('./app.js');
 
 app.factory("taskListService", ["$firebaseArray",
@@ -94,31 +129,34 @@ app.factory("taskListService", ["$firebaseArray",
       return taskList;
     }
 
-    var add = function(taskName){
+    var add = function(taskName, taskPriority){
 
       var now = +(new Date);
       var item = {
         content: taskName,
+        status: "active",
         taskAddTime: now,
-        isSelected: false 
+        priority: taskPriority,
+        isSelected: false
       };
 
-      taskList.$add(item).then(function(addedTask){
+      taskList.$add(item)
+      /*.then(function(addedTask){
         if(addedTask){
           console.log("Added Task ", addedTask.key())
         }
       }, function(err){
         console.log(err);
-      });
+      });*/
     };
 
     var update = function(task){
        taskList.$save(task)
-        .then(function(updatedTask){
+        /*.then(function(updatedTask){
           console.log("Updated Task:", updatedTask.key());
         }, function(err){
           console.log("The hell", err);
-        });
+        });*/
     };
 
     return {
@@ -128,4 +166,5 @@ app.factory("taskListService", ["$firebaseArray",
     }
   }
 ]);
-},{"./app.js":1}]},{},[1,2]);
+
+},{"./app.js":1}]},{},[1,2,3]);

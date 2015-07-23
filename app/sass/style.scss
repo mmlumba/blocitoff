@@ -16,6 +16,7 @@ body {
     list-style-type: none;
     padding:0;
     margin:0;
+    padding-bottom: $magic-margin-padding;
     li {
       //background-color: #CBE86B;
       //@include bg(#2b1339, #380c77);

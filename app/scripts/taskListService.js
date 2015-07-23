@@ -11,31 +11,34 @@ app.factory("taskListService", ["$firebaseArray",
       return taskList;
     }
 
-    var add = function(taskName){
+    var add = function(taskName, taskPriority){
 
       var now = +(new Date);
       var item = {
         content: taskName,
+        status: "active",
         taskAddTime: now,
-        isSelected: false 
+        priority: taskPriority,
+        isSelected: false
       };
 
-      taskList.$add(item).then(function(addedTask){
+      taskList.$add(item)
+      /*.then(function(addedTask){
         if(addedTask){
           console.log("Added Task ", addedTask.key())
         }
       }, function(err){
         console.log(err);
-      });
+      });*/
     };
 
     var update = function(task){
        taskList.$save(task)
-        .then(function(updatedTask){
+        /*.then(function(updatedTask){
           console.log("Updated Task:", updatedTask.key());
         }, function(err){
           console.log("The hell", err);
-        });
+        });*/
     };
 
     return {
