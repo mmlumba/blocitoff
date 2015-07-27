@@ -5,8 +5,16 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 
   $stateProvider.state('home', {
     url: '/',
-    controller: 'TaskCtrl.controller',
-    templateUrl: '/templates/home.html'
+    views: {
+      '': {
+        controller: 'TaskCtrl.controller',
+        templateUrl: '/templates/home.html'
+      },
+      'submitTask@home': {
+        controller: 'TaskCtrl.controller',
+        templateUrl: '/templates/submitTask.html'
+      }
+    }
   });
   $stateProvider.state('pastTasks', {
     url: '/pastTasks',
