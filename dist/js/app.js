@@ -6,8 +6,16 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 
   $stateProvider.state('home', {
     url: '/',
-    controller: 'TaskCtrl.controller',
-    templateUrl: '/templates/home.html'
+    views: {
+      '': {
+        controller: 'TaskCtrl.controller',
+        templateUrl: '/templates/home.html'
+      },
+      'submitTask@home': {
+        controller: 'TaskCtrl.controller',
+        templateUrl: '/templates/submitTask.html'
+      }
+    }
   });
   $stateProvider.state('pastTasks', {
     url: '/pastTasks',
@@ -118,6 +126,7 @@ var app = require('./app.js');
 
 app.directive("taskComplete", ['taskListService', function(taskListService){
   return {
+    template: '<a class="check"><i class="fa fa-square fa-lg"></i></a>',
     link: function(scope, elem, attr){
       elem.on('click', function(){
         var task = scope.task;
