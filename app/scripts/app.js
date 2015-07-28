@@ -41,6 +41,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
   });
 }]);
 
+
 app.controller("TaskCtrl.controller", ["$scope", "taskListService", "$interval",
   function($scope, taskListService, $interval){
     var ellapsedMilliseconds = 604800000; //TODO: could be converted to a constant
@@ -91,4 +92,5 @@ app.controller("TaskCtrl.controller", ["$scope", "taskListService", "$interval",
     }
 
   }]);
+
 module.exports =app;

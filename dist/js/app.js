@@ -42,6 +42,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
   });
 }]);
 
+
 app.controller("TaskCtrl.controller", ["$scope", "taskListService", "$interval",
   function($scope, taskListService, $interval){
     var ellapsedMilliseconds = 604800000; //TODO: could be converted to a constant
@@ -92,6 +93,7 @@ app.controller("TaskCtrl.controller", ["$scope", "taskListService", "$interval",
     }
 
   }]);
+
 module.exports =app;
 
 },{}],2:[function(require,module,exports){
@@ -126,7 +128,7 @@ var app = require('./app.js');
 
 app.directive("taskComplete", ['taskListService', function(taskListService){
   return {
-    template: '<a class="check"><i class="fa fa-square fa-lg"></i></a>',
+    templateUrl: '/templates/checkBox.html',
     link: function(scope, elem, attr){
       elem.on('click', function(){
         var task = scope.task;
@@ -139,6 +141,60 @@ app.directive("taskComplete", ['taskListService', function(taskListService){
 }]);
 
 },{"./app.js":1}],4:[function(require,module,exports){
+var app = require('./app.js');
+
+app.controller("TaskCtrl.controller", ["$scope", "taskListService", "$interval",
+  function($scope, taskListService, $interval){
+    var ellapsedMilliseconds = 604800000; //TODO: could be converted to a constant
+
+    var status = ["completed", "expired", "active"];
+
+    $scope.priority = "medium";
+
+    $scope.tasks = taskListService.getTasks();
+
+    $interval(function(){
+      $scope.timeStamp = +(new Date);
+    }, 100);
+
+    //Note: could change the name
+
+    $scope.taskFilter = function(task){
+      //console.log(task);
+      return (task.status == "completed" || task.status == "expired");
+    }
+
+    $scope.addNewTask = function() {
+      taskListService.add($scope.task, $scope.priority);
+      $scope.task = "";
+    };
+
+    $scope.hideTask = function(task) {
+
+      if($scope.taskFilter(task))
+        return true; //If task has already been marked completed just return true
+
+      //TODO: possible refactor here...
+      if (($scope.timeStamp - task.taskAddTime) >= ellapsedMilliseconds) { //If time has ellapsed by x milliseconds do this
+        task.status = "expired";
+      //  task.taskCompleted = true;
+        taskListService.updateTask(task); //update the task completed flag
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+
+    $scope.checkMe = function(task){
+      task.status = "completed";
+    //  task.isSelected = !task.isSelected;  //inverts the boolean, by default all new task will be marked false
+      taskListService.updateTask(task);
+    }
+
+  }]);
+
+},{"./app.js":1}],5:[function(require,module,exports){
 var app = require('./app.js');
 
 app.factory("taskListService", ["$firebaseArray",
@@ -190,4 +246,4 @@ app.factory("taskListService", ["$firebaseArray",
   }
 ]);
 
-},{"./app.js":1}]},{},[1,2,3,4]);
+},{"./app.js":1}]},{},[1,2,3,4,5]);
